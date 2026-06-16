@@ -1,0 +1,49 @@
+END USER LICENSE AGREEMENT
+IMPORTANT: PLEASE READ CAREFULLY BEFORE INSTALLING.
+
+This End User License Agreement (“Agreement”) is a legal agreement between you (either an individual or a single entity) and Fehmi Corporation (“Licensor”) for the software application provided to ${companyName} (“Licensee”), including any associated media, printed materials, and online or electronic documentation (collectively, the “Software”).
+
+By clicking “I Agree” or installing the Software, you agree to be bound by the terms of this Agreement.
+
+1. GRANT OF LICENSE
+Fehmi Corporation grants you a non-exclusive, non-transferable, limited license to install and use the Software solely for the internal business operations of ${companyName}.
+
+2. SOFTWARE CAPABILITIES AND ACCESS
+You acknowledge that the Software is designed to perform advanced system diagnostics, including:
+
+System Scanning: The Software will perform deep scans of your system, including file structures, installed applications, and registry keys.
+
+Administrative Access: The Software requires full administrative privileges to function correctly. By installing, you authorize the Software to access, read, and modify system files as necessary for its diagnostic and security operations.
+
+Data Storage: The Software utilizes a local SQLite database to store diagnostic results, scan history, and system configurations locally on your machine.
+
+Data Synchronization: To provide its services, the Software will synchronize collected data with Fehmi Corporation’s central servers. This data is used for security monitoring, reporting, and performance optimization.
+
+3. DATA PRIVACY AND SECURITY
+Fehmi Corporation is committed to protecting your data. All data transmitted between the Software and our servers is encrypted. By using this Software, you consent to the collection and transmission of system diagnostic data to Fehmi Corporation as described in our Privacy Policy.
+
+4. RESTRICTIONS
+You may not:
+
+Reverse engineer, decompile, or disassemble the Software.
+
+Modify, adapt, or create derivative works based on the Software.
+
+Remove any proprietary notices, labels, or marks from the Software.
+
+5. TERMINATION
+This Agreement is effective until terminated. Your rights under this Agreement will terminate automatically without notice from Fehmi Corporation if you fail to comply with any term(s) of this Agreement.
+
+6. DISCLAIMER OF WARRANTY
+THE SOFTWARE IS PROVIDED “AS IS” WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+
+7. LIMITATION OF LIABILITY
+IN NO EVENT SHALL FEHMI CORPORATION BE LIABLE FOR ANY DAMAGES WHATSOEVER (INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION, OR LOSS OF BUSINESS INFORMATION) ARISING OUT OF THE USE OR INABILITY TO USE THIS SOFTWARE.
+
+8. GOVERNING LAW
+This Agreement shall be governed by and construed in accordance with the laws of the jurisdiction in which Fehmi Corporation is headquartered, without regard to its conflict of law provisions.
+
+Instructions for the Placeholder:
+Important: Before you run the build, make sure to manually replace ${companyName} in the text file with the actual name of your client (e.g., "Acme Logistics") if you want it to appear correctly in the installer.
+
+If you want this to be dynamic (so you don't have to edit the file every time), you can leave it as is, but ensure your info.json or your build process doesn't rely on that specific string being parsed by the compiler, as NSIS will treat it as literal text unless you configure variable injection in your .nsi script.

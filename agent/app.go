@@ -5,6 +5,7 @@ import (
 	"context"
 	"embed"
 	"fmt"
+	"log"
 
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
@@ -29,6 +30,40 @@ func NewApp() *App {
 func (a *App) startup(ctx context.Context, id int) {
 	a.ctx = ctx
 	config.SetContext(id, ctx)
+
+	a.runBackgroundWatcher(ctx)
+}
+
+func notifyUser(ctx context.Context, title, body string) {
+	if runtime.IsNotificationAvailable(ctx) {
+		err := runtime.SendNotification(ctx, runtime.NotificationOptions{
+			ID:    "tray-notification",
+			Title: title,
+			Body:  body,
+		})
+		if err != nil {
+			log.Printf("Failed to send notification: %v", err)
+		}
+	}
+}
+
+func (a *App) runBackgroundWatcher(ctx context.Context) {
+	// Whenever you need to notify:
+	SendAgentNotification(ctx, "Alert", "Service is running in background!")
+}
+
+func SendAgentNotification(ctx context.Context, title string, message string) {
+	// Check if notifications are supported on the current platform
+	if runtime.IsNotificationAvailable(ctx) {
+		err := runtime.SendNotification(ctx, runtime.NotificationOptions{
+			ID:    "agent-notification-001", // Use a unique ID
+			Title: title,
+			Body:  message,
+		})
+		if err != nil {
+			// Log error if notification fails
+		}
+	}
 }
 
 // Greet returns a greeting for the given name
@@ -53,12 +88,12 @@ func QuitApp(id int) {
 	}
 }
 
-func RunApp(id int, hide bool) error {
+func RunApp(id int, title string, hide bool) error {
 	app := NewApp()
 	path := Register(id)
 	js := fmt.Sprintf("window.location.hash = '%s';", path)
 	err := wails.Run(&options.App{
-		Title:       fmt.Sprintf("%s - %d", cfg.Title, id),
+		Title:       fmt.Sprintf("%s - %s", cfg.Title, title),
 		Width:       cfg.Dimension.Width,
 		Height:      cfg.Dimension.Height,
 		StartHidden: hide,

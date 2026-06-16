@@ -1,0 +1,10 @@
+{
+  "company": "Fehmi",
+  "product": "Endpoint Agent",
+  "productname": "Fehmi Endpoint Agent",
+  "version": "1.0.0",
+  "comments": "System diagnostic, security monitoring, and management agent.",
+  "copyright": "© 2026 Fehmi Corporation. All rights reserved.",
+  "installdirname": "FehmiAgent",
+  "displayname": "Fehmi Agent"
+}

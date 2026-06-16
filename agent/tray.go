@@ -4,6 +4,7 @@ import (
 	"agent/internal/config"
 	_ "embed"
 	"log"
+	"strconv"
 
 	"github.com/getlantern/systray"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
@@ -36,7 +37,7 @@ func PopulateMenu() {
 			go func(item *systray.MenuItem, id int) {
 				for {
 					<-item.ClickedCh
-					handleTrayClick(t.FuncId)
+					handleTrayClick(t.FuncId, t.Title)
 				}
 			}(item, t.FuncId)
 		}
@@ -53,7 +54,7 @@ func onExit() {
 	}
 }
 
-func handleTrayClick(id int) {
+func handleTrayClick(id int, title string) {
 	if id == 100 {
 		log.Println("Quit Action Triggerd")
 		systray.Quit()
@@ -62,13 +63,14 @@ func handleTrayClick(id int) {
 
 	ctx := config.GetContext(id)
 	if ctx != nil {
+		notifyUser(ctx, "Agent Action", "Performing action ID: "+strconv.Itoa(id))
 		runtime.WindowShow(ctx)
 		runtime.WindowCenter(ctx)
 	} else {
 		// Run in a new goroutine so the tray loop doesn't hang
 		go func(windowID int) {
 			log.Printf("Launching new window for ID: %d", windowID)
-			RunApp(windowID, false)
+			RunApp(windowID, title, false)
 		}(id)
 	}
 }

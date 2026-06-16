@@ -14,7 +14,7 @@ app:
     - sperator: true
     - id: 1
       title: Scan
-      tooltip: Run Scan
+      tooltip: Run Scanner
     - id: 2
       title: Connect
       tooltip: Connect to Server
