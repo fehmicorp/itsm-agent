@@ -1,11 +1,9 @@
 package config
 
 import (
-	"flag"
 	"log"
 	"os"
 	"path/filepath"
-	"sync"
 
 	"github.com/ilyakaznacheev/cleanenv"
 )
@@ -20,55 +18,30 @@ type Config struct {
 
 var (
 	instance *Config
-	once     sync.Once
 )
 
 func InitialLoad() *Config {
-	once.Do(func() {
-		// 1. Determine the path
-		configPath := getConfigPath()
+	// 1. Try environment variable
+	configPath := os.Getenv("CONFIG_PATH")
 
-		// 2. Verify existence
-		if _, err := os.Stat(configPath); os.IsNotExist(err) {
-			log.Fatalf("Critical: Config file not found at: %s", configPath)
-		}
-
-		// 3. Read config
-		var cfg Config
-		err := cleanenv.ReadConfig(configPath, &cfg)
+	// 2. Fallback to executable directory if not set or doesn't exist
+	if configPath == "" || func() bool { _, err := os.Stat(configPath); return os.IsNotExist(err) }() {
+		exePath, err := os.Executable()
 		if err != nil {
-			log.Fatalf("Critical: Failed to parse config file: %v", err)
+			log.Fatal("Could not find executable path")
 		}
-
-		instance = &cfg
-	})
-	return instance
-}
-
-func getConfigPath() string {
-	// Priority 1: Environment Variable
-	if envPath := os.Getenv("CONFIG_PATH"); envPath != "" {
-		return envPath
+		// Assign to the existing variable, don't use :=
+		configPath = filepath.Join(filepath.Dir(exePath), "config.yaml")
 	}
 
-	// Priority 2: Command line flag
-	flagPath := flag.String("config", "", "path to the configuration file")
-	flag.Parse()
-	if *flagPath != "" {
-		return *flagPath
+	var cfg Config
+	err := cleanenv.ReadConfig(configPath, &cfg)
+	if err != nil {
+		log.Fatalf("can not read config file: %s", err.Error())
 	}
 
-	// Priority 3: Current Working Directory (Default)
-	cwd, _ := os.Getwd()
-	localPath := filepath.Join(cwd, "config.yaml")
-	if _, err := os.Stat(localPath); err == nil {
-		return localPath
-	}
-
-	// Priority 4: Executable Directory (Fallback for production)
-	exePath, _ := os.Executable()
-	exeDir := filepath.Dir(exePath)
-	return filepath.Join(exeDir, "config.yaml")
+	log.Println("Config Path Setting: ", configPath)
+	return &cfg
 }
 
 type AppConfig struct {
@@ -82,9 +55,10 @@ type AppConfig struct {
 }
 
 type TrayOptions struct {
-	FuncId  int    `yaml:"id"`
-	Title   string `yaml:"title"`
-	Tooltip string `yaml:"tooltip"`
+	FuncId   int    `yaml:"id,omitempty"`
+	Sperator bool   `yaml:"sperator,omitempty"`
+	Title    string `yaml:"title,omitempty"`
+	Tooltip  string `yaml:"tooltip,omitempty"`
 }
 
 type DimensionConfig struct {

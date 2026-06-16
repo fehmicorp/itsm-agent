@@ -1,6 +1,5 @@
 import {useEffect, useState} from 'react';
 import { EventsOn } from '../wailsjs/runtime/runtime'
-import {Greet} from "../wailsjs/go/main/App";
 import Dashboard from './pages/Dashboard'
 import Scan from './pages/Scan'
 import Connection from './pages/Connection'
@@ -23,15 +22,6 @@ function NavigationHandler() {
 
 
 function App() {
-    const [resultText, setResultText] = useState("Please enter your name below 👇");
-    const [name, setName] = useState('');
-    const updateName = (e: any) => setName(e.target.value);
-    const updateResultText = (result: string) => setResultText(result);
-
-    function greet() {
-        Greet(name).then(updateResultText);
-    }
-
     return (
         <HashRouter>
             <div className="min-h-screen w-full bg-gray-900 text-white flex flex-col">

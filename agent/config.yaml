@@ -3,20 +3,25 @@ app:
   version: 1.0.0
   environment: development
   title: Fehmi Agent
-  tooltip: "Fehmi Unified Endpoint Management Agent\nVersion: 1.0.0"
+  tooltip: "Fehmi Unified Endpoint Agent\nVersion: 1.0.0"
   dimension:
     width: 500
     height: 500
   tray:
+    - id: 0
+      title: Dashboard
+      tooltip: Show Dashboard view
+    - sperator: true
     - id: 1
       title: Scan
       tooltip: Run Scan
     - id: 2
-      title: Update
-      tooltip: Update new feature
-    - id: 3
-      title: Setting
-      tooltip: Show settings
+      title: Connect
+      tooltip: Connect to Server
+    - sperator: true
+    - id: 100
+      title: Quit
+      tooltip: Quit the application
 
 server:
   - tag: primary
