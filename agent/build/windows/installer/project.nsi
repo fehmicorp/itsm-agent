@@ -72,6 +72,8 @@ Section
 
     # Prepare ProgramData for the Go app to populate later
     CreateDirectory "$PROGRAMDATA\Fehmi\endpoint agent"
+    WriteRegStr HKCU "Software\Classes\AppUserModelId\Fehmi.EndpointAgent" "DisplayName" "Endpoint Agent"
+    WriteRegStr HKCU "Software\Classes\AppUserModelId\Fehmi.EndpointAgent" "IconUri" "$MUI_ICON"
     
     CreateShortcut "$SMPROGRAMS\${INFO_PRODUCTNAME}.lnk" "$INSTDIR\${PRODUCT_EXECUTABLE}"
     CreateShortCut "$DESKTOP\${INFO_PRODUCTNAME}.lnk" "$INSTDIR\${PRODUCT_EXECUTABLE}"

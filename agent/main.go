@@ -4,6 +4,8 @@ import (
 	"agent/internal/config"
 	"log"
 	"os"
+	"syscall"
+	"unsafe"
 )
 
 func setupLogger() {
@@ -26,6 +28,7 @@ func main() {
 		}
 	}
 	setupLogger()
+	initAppID()
 
 	log.Println("Engine Starting...")
 	cfg := config.InitialLoad()
@@ -36,4 +39,16 @@ func main() {
 
 	log.Println("Initializing System Tray...")
 	InitializeTray(&cfg.App)
+}
+
+func initAppID() {
+	// Load the library directly
+	shell32 := syscall.NewLazyDLL("shell32.dll")
+	procSetAppID := shell32.NewProc("SetCurrentProcessExplicitAppUserModelID")
+
+	// Convert string to UTF16 pointer
+	appID, _ := syscall.UTF16PtrFromString("Fehmi.EndpointAgent")
+
+	// Call the procedure
+	procSetAppID.Call(uintptr(unsafe.Pointer(appID)))
 }

@@ -62,8 +62,9 @@ func handleTrayClick(id int, title string) {
 	}
 
 	ctx := config.GetContext(id)
+	notify := config.GetContext(5001)
 	if ctx != nil {
-		notifyUser(ctx, "Agent Action", "Performing action ID: "+strconv.Itoa(id))
+		TriggerNotification(notify, "Agent Action", "Performing action ID: "+strconv.Itoa(id))
 		runtime.WindowShow(ctx)
 		runtime.WindowCenter(ctx)
 	} else {
